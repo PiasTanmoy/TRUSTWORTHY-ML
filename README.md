@@ -41,5 +41,11 @@ Change the seed to create multiple test sets.
 5. Set the path of normalizer_state
 6. Run the Python file and it will generate gradient cases
 
+## Generate repair units
+1. Execute the Python files located in "Generate repair units". For example, Generate_Diastolic_BP_cases.py will generate diastolic blood pressure repair units for the LSTM model. 
+2. Combine the "train_listfile.csv" with generated "DBP_C1_low_2k_name_list.csv".
+3. Combine the train set with the repair unit set.
+4. Train the LSTM model using the combined training set
+
 
 
