@@ -62,13 +62,20 @@ Note: You can set custom seed and output dir in the file. Just change the follow
 seed = '15645_episode1_timeseries.csv'
 save_dir = 'Diastolic BP set - Seed5 - SD 15/'
 
+Test model using custom test sets (For example if we would like to test DBP set just set the args accordingly)
+python -um mimic3models.in_hospital_mortality.main-model-test --network mimic3models/keras_models/lstm.py --dim 16 --timestep 1.0 --depth 2 --dropout 0.3 --mode test-DBP --batch_size 8 --output_dir mimic3models/in_hospital_mortality --load_state mimic3models/in_hospital_mortality/keras_states_LSTM_trail_1/k_lstm.n16.d0.3.dep2.bs8.ts1.0.epoch39.test0.2848591662846242.state
+
 ## Gradient ascent based tests
 1. Activate the virtual environment with Python 3.9
 2. Open one of the Python files. For example: "Gradient test/gradient_ascent_Diastolic_BP_cases.py"
 3. Set the working directory
-4. Set three LSTM model states 1, 2, and 3
+4. Set three already trained LSTM model saved states 1, 2, and 3
 5. Set the path of normalizer_state
 6. Run the Python file and it will generate gradient cases
+
+## Neural Activation Map
+python -um mimic3models.in_hospital_mortality.main-model-test --network mimic3models/keras_models/lstm.py --dim 16 --timestep 1.0 --depth 2 --dropout 0.3 --mode test-neuron-viz --batch_size 8 --output_dir mimic3models/in_hospital_mortality --load_state mimic3models/in_hospital_mortality/keras_states_LSTM_trail_1/k_lstm.n16.d0.3.dep2.bs8.ts1.0.epoch39.test0.2848591662846242.state
+
 
 
 ## Test model with Test set
@@ -119,7 +126,14 @@ python3 main.py --incidences breast/BREAST.TXT --specifications example/read.see
 
 8. Create custom test set using code "Generate test sets/Create Test Sets.ipynb". Set the data path carefully.
 
-9. Test the model using the following command
+9. For testing test the model and test set directory in the code as follows
+In main-single.py, set the trained model saved state directory at "dir" and test set directory at "valid_df_path" in the following code segment
+
+    results_validate = experiment.validate_single(mlp_epochs=args.mlpEpochs, 
+                                                  dir='Base_MLP_models2/2024-4-2_17-54-44_experiment-1/',
+                                                  valid_df_path = 'Test2/Original_Test_Set/test_norm')
+
+Test the model using the following command
 
 python3 main-single.py --incidences breast/BREAST.TXT --specifications example/read.seer.research.nov2016.sas --cases breast/breast_all_cases.csv --task survival60 --oneHotEncoding --model MLP --mlpLayers 2 --mlpWidth 20 --mlpEpochs 3 --mlpDropout 0.1 --importance
 
