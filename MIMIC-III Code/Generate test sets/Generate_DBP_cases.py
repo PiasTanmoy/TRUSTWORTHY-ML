@@ -8,7 +8,7 @@ import statistics
 #seed = 'seed 2 - 6003_episode1_timeseries (close to ideal).csv'
 #seed = 'seed 3 - 6552_episode2_timeseries (close to ideal).csv'
 #seed = 'seed 4 - 12605_episode1_timeseries (close to ideal).csv'
-seed = 'seed 5 - 15645_episode1_timeseries (close to ideal).csv'
+seed = '15645_episode1_timeseries.csv'
 save_dir = 'Diastolic BP set - Seed5 - SD 15/'
 attr_name = 'Diastolic blood pressure'
 file_name_pre = 'DBP_'
