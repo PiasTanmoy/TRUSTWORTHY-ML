@@ -1,5 +1,8 @@
 # TRUSTWORTHY-ML
 
+
+# MIMIC - III Instructions
+
 ## Prepare data and codes
 1. MIMIC III dataset can be downloaded from https://mimic.physionet.org/
 2. We construct a benchmark machine learning dataset from https://github.com/YerevaNN/mimic3-benchmarks using the MIMIC III dataset
@@ -97,3 +100,27 @@ Train-Test-Logistic Regression
 python -um mimic3models.in_hospital_mortality.logistic.main --l2 --C 0.001 --output_dir mimic3models/in_hospital_mortality/LR_trained
 
 
+# SEER BCS Instructions
+
+1. Request access to SEER data on their website (https://seer.cancer.gov/data/access.html). Our experiments used 1973-2014 (November 2016 Submission). The ASCII data file is available for download upon request. Newer submission of data is also available on SEER website (https://seer.cancer.gov/data-software/documentation/seerstat/).
+
+2. We utilized reproduciable code from paper "Hegselmann, Stefan, Leonard Gruelich, Julian Varghese, and Martin Dugas. "Reproducible survival prediction with SEER cancer data." In Machine Learning for Healthcare Conference, pp. 49-66. PMLR, 2018." - code: https://github.com/stefanhgm/MLHC2018-reproducible-survival-seer/ . Download the code base. We will build up on this code base and use it as the working directory.
+
+3. Create a virtual envirnment with python 3.6 - use SEER-BCS Code/Requirements/requirements.txt
+
+4. Replace files from "Test models" to working directory of the code base of step 2. 
+
+5. Replace files from "Helper" to working-directory/lib .
+
+6. To train the model
+python3 main.py --incidences breast/BREAST.TXT --specifications example/read.seer.research.nov2016.sas --cases breast/breast_all_cases.csv --task survival60 --oneHotEncoding --model MLP --mlpLayers 2 --mlpWidth 20 --mlpEpochs 25 --mlpDropout 0.1 --importance --test
+
+7. Select best epoch, calibrate the model predictions, estimate the optimal threshold, and calculate the final performance metrics using code in "Analysis" folder. 
+
+8. Create custom test set using code "Generate test sets/Create Test Sets.ipynb". Set the data path carefully.
+
+9. Test the model using the following command
+
+python3 main-single.py --incidences breast/BREAST.TXT --specifications example/read.seer.research.nov2016.sas --cases breast/breast_all_cases.csv --task survival60 --oneHotEncoding --model MLP --mlpLayers 2 --mlpWidth 20 --mlpEpochs 3 --mlpDropout 0.1 --importance
+
+9. Process the test prediction using the code in "Analysis" folder.
