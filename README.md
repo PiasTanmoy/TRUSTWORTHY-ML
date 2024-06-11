@@ -16,15 +16,15 @@ Activate virtual environment 3.7
 LSTM training <br>
 python -um mimic3models.in_hospital_mortality.main --network mimic3models/keras_models/lstm.py --dim 16 --timestep 1.0 --depth 2 --dropout 0.3 --mode train --batch_size 8 --epochs 100 --output_dir mimic3models/in_hospital_mortality
 
-Train-Channel Wise LSTM
+Train-Channel Wise LSTM <br>
 python -um mimic3models.in_hospital_mortality.main --network mimic3models/keras_models/channel_wise_lstms.py --dim 16 --timestep 1.0 --depth 2 --dropout 0.3 --mode train-repair-Respiratory-CW-LSTM --batch_size 8 --epochs 100 --output_dir mimic3models/in_hospital_mortality
 
-Train-Test-Logistic Regression 
+Train-Test-Logistic Regression  <br>
 python -um mimic3models.in_hospital_mortality.logistic.main --l2 --C 0.001 --output_dir mimic3models/in_hospital_mortality/LR_trained
 
 For LSTM and CW-LSTM output (saved models and predictions) will be saved "mimic3models/in_hospital_mortality/keras_states" and for LR the output dir is "mimic3models/in_hospital_mortality/LR_trained/results"
 
-Select the epoch with best performance on validation set. We considered AUPRC and loss as main metrics. 
+Select the epoch with best performance on validation set. We considered AUPRC and loss as main metrics.  <br>
 1. Use the code "Analysis/MIMIC_III_Training_State_Selection.ipynb" to load the training log.
 2. Sort the training log using "val AUPRC". Select 3 epochs with maximum value of "val AUPRC".
 3. Select one epoch from the 3 using lowest validation loss.
@@ -32,12 +32,12 @@ Select the epoch with best performance on validation set. We considered AUPRC an
 ## Test baseline models using the  original MIMIC III test set
 Determine the best model from the epochs and load the model. In our case, the 39th epoch performed the best. 
 
-Testing LSTM (epoch 39):
+Testing LSTM (epoch 39):  <br>
 python -um mimic3models.in_hospital_mortality.main --network mimic3models/keras_models/lstm.py --dim 16 --timestep 1.0 --depth 2 --dropout 0.3 --mode test --batch_size 8 --output_dir mimic3models/in_hospital_mortality --load_state mimic3models/in_hospital_mortality/keras_states_LSTM_trail_1/k_lstm.n16.d0.3.dep2.bs8.ts1.0.epoch39.test0.2848591662846242.state
 
 Note: We have renamed the "mimic3models/in_hospital_mortality/keras_states" to ""mimic3models/in_hospital_mortality/keras_states_LSTM_trail_1".
 
-Test Channel Wise LSTM (epoch 37)
+Test Channel Wise LSTM (epoch 37):  <br>
 python -um mimic3models.in_hospital_mortality.main --network mimic3models/keras_models/channel_wise_lstms.py --dim 16 --timestep 1.0 --depth 2 --dropout 0.3 --mode test --batch_size 8 --output_dir mimic3models/in_hospital_mortality --load_state mimic3models/in_hospital_mortality/keras_states_CW_LSTM_trail_1/k_channel_wise_lstms.n16.szc4.0.d0.3.dep2.bs8.ts1.0.epoch37.test0.28432124478986437.state
 
 Note: We have renamed the "mimic3models/in_hospital_mortality/keras_states" to ""mimic3models/in_hospital_mortality/keras_states_CW_LSTM_trail_1".
@@ -89,10 +89,10 @@ test_reader = InHospitalMortalityReader(dataset_dir=os.path.join(args.data, 'cus
 You can also set the test output directory in the following statement
 path = os.path.join(args.output_dir, "test_predictions", os.path.basename(args.load_state)) + ".csv"
 
-Testing LSTM (epoch 39):
+Testing LSTM (epoch 39): <br>
 python -um mimic3models.in_hospital_mortality.main --network mimic3models/keras_models/lstm.py --dim 16 --timestep 1.0 --depth 2 --dropout 0.3 --mode test --batch_size 8 --output_dir mimic3models/in_hospital_mortality --load_state mimic3models/in_hospital_mortality/keras_states_LSTM_trail_1/k_lstm.n16.d0.3.dep2.bs8.ts1.0.epoch39.test0.2848591662846242.state
 
-Test Channel Wise LSTM (epoch 37)
+Test Channel Wise LSTM (epoch 37):  <br>
 python -um mimic3models.in_hospital_mortality.main --network mimic3models/keras_models/channel_wise_lstms.py --dim 16 --timestep 1.0 --depth 2 --dropout 0.3 --mode test --batch_size 8 --output_dir mimic3models/in_hospital_mortality --load_state mimic3models/in_hospital_mortality/keras_states_CW_LSTM_trail_1/k_channel_wise_lstms.n16.szc4.0.d0.3.dep2.bs8.ts1.0.epoch37.test0.28432124478986437.state
 
 For LR test, we have to train and test as follows.
@@ -103,7 +103,7 @@ test_reader = InHospitalMortalityReader(dataset_dir=os.path.join(args.data, 'tes
                                             listfile=os.path.join(args.data, 'test_listfile.csv'),
                                             period_length=48.0)
 
-Train-Test-Logistic Regression 
+Train-Test-Logistic Regression:  <br>
 python -um mimic3models.in_hospital_mortality.logistic.main --l2 --C 0.001 --output_dir mimic3models/in_hospital_mortality/LR_trained
 
 
@@ -119,21 +119,21 @@ python -um mimic3models.in_hospital_mortality.logistic.main --l2 --C 0.001 --out
 
 5. Replace files from "Helper" to working-directory/lib .
 
-6. To train the model
+6. To train the model  <br>
 python3 main.py --incidences breast/BREAST.TXT --specifications example/read.seer.research.nov2016.sas --cases breast/breast_all_cases.csv --task survival60 --oneHotEncoding --model MLP --mlpLayers 2 --mlpWidth 20 --mlpEpochs 25 --mlpDropout 0.1 --importance --test
 
 7. Select best epoch, calibrate the model predictions, estimate the optimal threshold, and calculate the final performance metrics using code in "Analysis" folder. 
 
 8. Create custom test set using code "Generate test sets/Create Test Sets.ipynb". Set the data path carefully.
 
-9. For testing test the model and test set directory in the code as follows
+9. For testing test the model and test set directory in the code as follows  <br>
 In main-single.py, set the trained model saved state directory at "dir" and test set directory at "valid_df_path" in the following code segment
 
     results_validate = experiment.validate_single(mlp_epochs=args.mlpEpochs, 
                                                   dir='Base_MLP_models2/2024-4-2_17-54-44_experiment-1/',
                                                   valid_df_path = 'Test2/Original_Test_Set/test_norm')
 
-Test the model using the following command
+Test the model using the following command  <br>
 
 python3 main-single.py --incidences breast/BREAST.TXT --specifications example/read.seer.research.nov2016.sas --cases breast/breast_all_cases.csv --task survival60 --oneHotEncoding --model MLP --mlpLayers 2 --mlpWidth 20 --mlpEpochs 3 --mlpDropout 0.1 --importance
 
