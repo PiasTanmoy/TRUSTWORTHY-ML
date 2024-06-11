@@ -6,7 +6,7 @@
 ## Prepare data and codes
 1. MIMIC III dataset can be downloaded from https://mimic.physionet.org/
 2. We construct a benchmark machine learning dataset from https://github.com/YerevaNN/mimic3-benchmarks using the MIMIC III dataset
-3. In the Benchmark GitHub, please follow the six steps specified in the “Building a benchmark” subsection to create a benchmark machine learning dataset for the In-hospital mortality prediction task.
+3. In the Benchmark GitHub, please follow the steps specified in the “Building a benchmark” subsection to create a benchmark machine learning dataset for the In-hospital mortality prediction task. The run "Train / validation split" command to create a test and validation set for measuring performance. 
 4. Replace "preprocessing.py" and "metrics.py" located in mimic3-benchmarks/mimic3models with the files located in the "Helper" directory.
 5. Create two virtual environments using two files in the "Requirements" directory. One with Python 3.7 and another with Python 3.9
 
